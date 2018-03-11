@@ -1,0 +1,53 @@
+[
+  {
+    "call": "joke",
+    "aliases": [],
+    "admin": true,
+    "class_name": "Joke",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [0]
+    }
+  },
+  {
+    "call": "add",
+    "aliases": ["lisaa"],
+    "admin": true,
+    "class_name": "AddCommand",
+    "info": "This command is used to add custom commands!",
+    "syntax": "add [command] [Message]",
+    "exmaple": [{
+        "input": "add whitehouse Whitehouse is a white house!",
+        "output": ":white_check_mark: **| Command '__dd__' added to the database!**"
+    }],
+    "args": {
+      "delimeter": " ",
+      "split": 1,
+      "length": [2]
+    }
+  },
+  {
+    "call": "remove",
+    "aliases": ["e4f4ef", "f4ew4ew"],
+    "admin": true,
+    "class_name": "RemoveCommand",
+    "info": "This command is used to add custom commands!",
+    "syntax": "add [command] [Message]",
+    "exmaple": [{
+        "input": "add whitehouse Whitehouse is a white house!",
+        "output": ":white_check_mark: **| Command '__dd__' added to the database!**"
+    }],
+    "args": {
+      "delimeter": " ",
+      "split": 4,
+      "length": [1]
+    }
+  }
+]

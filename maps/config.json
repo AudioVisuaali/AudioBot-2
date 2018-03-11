@@ -1,0 +1,12 @@
+{
+  "bot": {
+    "token": ""
+  },
+  "database": {
+    "type": "",
+    "username": "",
+    "password": "",
+    "address": "",
+    "database": ""
+  }
+}
