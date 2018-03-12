@@ -2,7 +2,7 @@
   {
     "call": "joke",
     "aliases": [],
-    "admin": true,
+    "owner": false,
     "class_name": "Joke",
     "info": "",
     "syntax": "",
@@ -17,9 +17,60 @@
     }
   },
   {
+    "call": "eightball",
+    "aliases": ["8ball"],
+    "owner": false,
+    "class_name": "EightBall",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [1]
+    }
+  },
+  {
+    "call": "lennyface",
+    "aliases": ["lenny"],
+    "owner": false,
+    "class_name": "Lennyface",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [0]
+    }
+  },
+  {
+    "call": "math",
+    "aliases": [],
+    "owner": false,
+    "class_name": "Math",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 0,
+      "length": [1]
+    }
+  },
+  {
     "call": "add",
     "aliases": ["lisaa"],
-    "admin": true,
+    "owner": true,
     "class_name": "AddCommand",
     "info": "This command is used to add custom commands!",
     "syntax": "add [command] [Message]",
@@ -36,7 +87,7 @@
   {
     "call": "remove",
     "aliases": ["e4f4ef", "f4ew4ew"],
-    "admin": true,
+    "owner": true,
     "class_name": "RemoveCommand",
     "info": "This command is used to add custom commands!",
     "syntax": "add [command] [Message]",
@@ -45,8 +96,8 @@
         "output": ":white_check_mark: **| Command '__dd__' added to the database!**"
     }],
     "args": {
-      "delimeter": " ",
-      "split": 4,
+      "delimeter": null,
+      "split": 1,
       "length": [1]
     }
   }

@@ -3,7 +3,7 @@ from sqlalchemy import (Table, Column, Integer,
                         exists, create_engine, update)
 from sqlalchemy.orm import sessionmaker, joinedload
 from sqlalchemy.sql import exists, and_
-from database.ext import Commit, IsBoolean, IsInteger, IsString
+from utils.decorators import Commit, IsBoolean, IsInteger, IsString
 from database.tables import (Servers, Users, Messages,
                              PointHistory, Commands, BotInfo,
                              Base)
