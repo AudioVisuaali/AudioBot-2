@@ -126,7 +126,7 @@ class Bot(Client):
             command, args = content.split(" ", 1)
         except:
             command = content
-            args = ""
+            args = None
         finally:
             class_name_, arguments = "", []
 
@@ -144,12 +144,18 @@ class Bot(Client):
             arguments = command
 
         else:
+            if module.owner:
+                if message.author.id != message.server.owner.id:
+                    return
+
             class_name_ = module.class_name
 
             if module.args.delimeter is None:
-                if not(len(args) in module.args.length):
+                if args != None:
+                    arguments.append(args)
+
+                if not(len(arguments) in module.args.length):
                     return
-                arguments.append(args)
 
             elif module.args.delimeter is not None:
                 arguments.extend(args.split(module.args.delimeter, module.args.split))
