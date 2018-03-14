@@ -2,8 +2,6 @@ from datetime import datetime, timedelta
 from collections import namedtuple
 from random import randint
 from json import loads, dumps, load
-import re
-import asyncio
 
 class Utils:
 
@@ -15,6 +13,7 @@ class Utils:
         self.message_encode = "utf-8"
         self.lennyfaces = self.get_lennyfaces()
         self.eightBall = self.get_eightball()
+        self.starttime = datetime.now()
 
     def send(self, value, message):
 
@@ -26,7 +25,6 @@ class Utils:
             help_type = self.user
         elif value == 3:
             help_type = self.fail
-
 
         letter = str("{:[%Y-%m-%d %H:%M:%S.%f}".format(datetime.now())[:-3]+"]") + help_type + " " + message
         print(letter)
@@ -75,11 +73,47 @@ class Utils:
 
     def author_nickanme(self, author):
 
-        if author.nick is None:
-            return author.name
-        else:
-            return author.nick
+        try:
+            if author.nick is None:
+                return author.name
+            else:
+                return author.nick
+        except:
+            return
 
+
+    # Gives user instance
+    async def get_user_instance(server, search):
+
+        # Checking for part of the name
+        for member in server.members:
+            if search.lower() in member.name.lower():
+                return member
+
+        # Checking for part of the nick
+        for member in message.server.members:
+            try:
+                if str(search).lower() in member.nick.lower():
+                    return member
+            except AttributeError:
+                pass
+
+        # Checking for users
+        if search[:2] == "<@" and search[-1:] == ">" and search[2:-1].isnumeric():
+            name = discord.utils.get(message.server.members, id=search[2:-1])
+            return name
+
+        # Checking for bots and selfnoti? and serverowner?
+        if search[:3] == "<@!" and search[-1:] == ">" and search[3:-1].isnumeric():
+            name = discord.utils.get(message.server.members, id=search[3:-1])
+            return name
+
+        # By id
+        if len(search) == 18 and search.isnumeric():
+            name = discord.utils.get(message.server.members, id=search)
+            return name
+
+            return
     def level_check(self, d_id, xp, level, level_base_xp, level_scaling_xp, level_scaling_max):
 
         response = self.level_xp(xp, level_base_xp, level_scaling_xp, level_scaling_max)
@@ -140,21 +174,34 @@ class Timeout:
         return False
 
     async def user_cmd_add(self, d_id, module):
-        Timeout.command_timeouts.append("{}:{}".format(d_id, module))
+
+        class Swg:
+
+            def __init_(self, d_id, module):
+                self.d_id = d_id
+                self.module = module
+
+        Timeout.command_timeouts.append(Swg(d_id, module))
 
     async def user_cmd_check(d_id, module):
+
         for cmdtimeout in Timeout.command_timeouts:
-            if cmdtimeout == "{}:{}".format(d_id, module):
+            if cmdtimeout.d_id == d_id and cmdtimeout.module == module:
                 return True
+
         return False
 
     async def user_cmd_check_add(self, d_id, module):
+
         for cmdtimeout in Timeout.command_timeouts:
-            if cmdtimeout == "{}:{}".format(d_id, module):
+            if cmdtimeout.d_id == d_id and cmdtimeout.module == module:
                 return True
 
-        Timeout.command_timeouts.append("{}:{}".format(d_id, module))
+        self.user_cmd_add(d_id, module)
         return False
 
     async def user_cmd_remove(self, d_id, module):
-        Timeout.command_timeouts.remove("{}:{}".format(d_id, module))
+
+        for cmdtimeout in Timeout.command_timeouts:
+            if cmdtimeout.d_id == d_id and cmdtimeout.module == module:
+                Timeout.command_timeouts.remove(timeout)

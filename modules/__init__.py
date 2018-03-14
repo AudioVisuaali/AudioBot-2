@@ -5,3 +5,10 @@ from modules.joke import Joke
 from modules.lennyface import Lennyface
 from modules.math import Math
 from modules.eightball import EightBall
+from modules.channels import ServerChannel
+from modules.choose import Choose
+from modules.dice import Dice
+from modules.online import BotStart
+from modules.roulette import Roulette
+from modules.stab import Stab
+from modules.slap import Slap

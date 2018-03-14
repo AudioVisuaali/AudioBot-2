@@ -2,6 +2,7 @@ from discord import Client
 from database.database import Database
 from utils import Utils, Timeout
 from random import randint
+from asyncio import sleep as asleep
 import modules
 
 database = Database()
@@ -134,9 +135,6 @@ class Bot(Client):
         if await self.timeout.user_cmd_check_add(message.author.id, command):
             return
 
-        # Remove cd
-        await self.timeout.user_cmd_remove(message.author.id, command)
-
         module = await self.get_module(command)
 
         if module is None:
@@ -158,13 +156,18 @@ class Bot(Client):
                     return
 
             elif module.args.delimeter is not None:
-                arguments.extend(args.split(module.args.delimeter, module.args.split))
+                if args:
+                    arguments.extend(args.split(module.args.delimeter, module.args.split))
 
                 if len(arguments) not in module.args.length:
                     return
 
         class_ = getattr(modules, class_name_)()
         await class_.main(self, database, message, arguments)
+
+        # Remove cd
+        await asleep(1)
+        await self.timeout.user_cmd_remove(message.author.id, command)
 
     async def on_message(self, message):
         """Doesn't really like private messages yet"""
@@ -200,7 +203,6 @@ class Bot(Client):
         levels = self.utils.level_check(message.author.id, user_stats.xp, user_stats.level,
                                         bot_stats.level_base_xp, bot_stats.level_scaling_xp,
                                         bot_stats.level_scaling_max)
-
         if levels.set_level:
             database.user.level_alter(message.author.id, 1)
 
