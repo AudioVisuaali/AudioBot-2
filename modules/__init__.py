@@ -12,3 +12,17 @@ from modules.online import BotStart
 from modules.roulette import Roulette
 from modules.stab import Stab
 from modules.slap import Slap
+from modules.bank import Bank
+from modules.points import UserPoints
+from modules.ping import Ping
+from modules.trump import Trump
+from modules.catfact import CatFact
+from modules.dogfact import DogFact
+from modules.yomama import YoMama
+from modules.chucknorris import ChuckNorris
+from modules.dad import Dad
+from modules.gender import Gender
+from modules.geolocation import GeoLocation
+from modules.weather import Weather
+from modules.wikipedia import Wikipedia
+from modules.youtube import Youtube

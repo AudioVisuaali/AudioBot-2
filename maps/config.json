@@ -8,5 +8,23 @@
     "password": "",
     "address": "",
     "database": ""
+  },
+  "google": {
+    "key": ""
+  },
+  "openweather": {
+    "key": ""
+  },
+  "osu": {
+    "key": ""
+  },
+  "twitter": {
+    "consumer_key": "",
+    "consumer_secret": "",
+    "access_token": "",
+    "access_token_secret": ""
+  },
+  "logging": {
+    "state": false
   }
 }

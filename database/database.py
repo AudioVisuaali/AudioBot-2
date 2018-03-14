@@ -1,67 +1,68 @@
 from sqlalchemy import (Table, Column, Integer,
                         Date, select, literal, and_,
-                        exists, create_engine, update)
+                        exists, create_engine, update,
+                        func)
 from sqlalchemy.orm import sessionmaker, joinedload
 from sqlalchemy.sql import exists, and_
 from utils.decorators import Commit, IsBoolean, IsInteger, IsString
 from database.tables import (Servers, Users, Messages,
                              PointHistory, Commands, BotInfo,
                              Base)
+from datetime import datetime, timedelta
 from utils import Utils
-
-util = Utils()
-config = util.get_config_info()
-
-# Create engine
-addr = '{0.type}://{0.username}:{0.password}@{0.address}/{0.database}'.format(config.database)
-engine = create_engine(addr, echo=False, convert_unicode=True)
-
-# Create tables
-Base.metadata.create_all(engine)
+import time
 
 # Database connector
 class Database:
 
     def __init__(self):
 
-        DatabaseConntection.__init__(self)
-        self.user = User()
-        self.server = Server()
-        self.message = Message()
-        self.points = Points()
-        self.bot = Bot()
-        self.command = Command()
-        self.cache = Cache()
+        self.config = None
+        self.addr = None
+        self.engine = None
+        self.session = None
 
-        Cache.get_cache(self)
+    def connect(self):
 
-    def getEngine(self):
+        # Utils / config
+        util = Utils()
+        self.config = util.get_config_info()
 
-        return self.engine
+        # creating engine
+        self.addr = '{0.type}://{0.username}:{0.password}@{0.address}/{0.database}'.format(self.config.database)
+        self.engine = create_engine(self.addr, echo=False, convert_unicode=True)
 
-    def dispose(self):
+        # Creating tables
+        Base.metadata.create_all(self.engine)
 
-        engine.dispose()
-
-# Connection
-class DatabaseConntection:
-
-    # Create connection
-    def __init__(self):
-
-        # Create session
-        Session = sessionmaker(bind=engine)
+        # Session
+        Session = sessionmaker(bind=self.engine)
         self.session = Session()
 
-        self.connection = engine.connect()
+        # mapping
+        self.user = User(self.session)
+        self.server = Server(self.session)
+        self.message = Message(self.session)
+        self.pointhistory = Points(self.session)
+        self.bot = Bot(self.session)
+        self.command = Command(self.session)
+        self.cache = Cache(self.session)
 
-        return
+        # Creating cache
+        Cache.get_cache(self)
 
     def close(self):
 
-        self.close()
+        self.session.close()
 
-class Cache(DatabaseConntection):
+    def dispose(self):
+
+        self.engine.dispose()
+
+class Cache:
+
+    def __init__(self, session):
+        self.session = session
 
     users = []
     servers = []
@@ -78,7 +79,6 @@ class Cache(DatabaseConntection):
             Cache.users.append(user)
 
         for command in Command.get_all(self):
-
             Cache.commands.append(command)
 
         botstats = Bot.get_all(self)
@@ -91,7 +91,10 @@ class Cache(DatabaseConntection):
         return
 
 # User
-class User(DatabaseConntection):
+class User:
+
+    def __init__(self, session):
+        self.session = session
 
     @Commit
     def add(self, author, points=0, bank=0, xp=0, level=0, tokens=0):
@@ -143,7 +146,7 @@ class User(DatabaseConntection):
         stmt = update(Users).where(Users.d_id == d_id).\
                 values(points = Users.points + point_amount)
 
-        self.connection.execute(stmt)
+        self.session.execute(stmt)
 
         return
 
@@ -157,7 +160,7 @@ class User(DatabaseConntection):
         stmt = update(Users).where(Users.d_id == d_id).\
                 values(bank = Users.bank + point_amount)
 
-        self.connection.execute(stmt)
+        self.session.execute(stmt)
 
         return
 
@@ -171,7 +174,7 @@ class User(DatabaseConntection):
         stmt = update(Users).where(Users.d_id == d_id).\
                 values(xp = Users.xp + xp_amount)
 
-        self.connection.execute(stmt)
+        self.session.execute(stmt)
 
         return
 
@@ -185,7 +188,7 @@ class User(DatabaseConntection):
         stmt = update(Users).where(Users.d_id == d_id).\
                 values(level = Users.level + level_amount)
 
-        self.connection.execute(stmt)
+        self.session.execute(stmt)
 
         return
 
@@ -199,7 +202,7 @@ class User(DatabaseConntection):
         stmt = update(Users).where(Users.d_id == d_id).\
                 values(level = level_set)
 
-        self.connection.execute(stmt)
+        self.session.execute(stmt)
 
         return
 
@@ -213,12 +216,15 @@ class User(DatabaseConntection):
         stmt = update(Users).where(Users.d_id == d_id).\
                 values(tokens = Users.tokens + tokens_amount)
 
-        self.connection.execute(stmt)
+        self.session.execute(stmt)
 
         return
 
 # Server
-class Server(DatabaseConntection):
+class Server:
+
+    def __init__(self, session):
+        self.session = session
 
     @Commit
     def add(self, server, command_start="!",
@@ -286,7 +292,7 @@ class Server(DatabaseConntection):
         stmt = update(Servers).where(Servers.server_id == server_id).\
                 values(command_start = command_starter)
 
-        self.connection.execute(stmt)
+        self.session.execute(stmt)
 
         return
 
@@ -300,7 +306,7 @@ class Server(DatabaseConntection):
         stmt = update(Servers).where(Servers.server_id == server_id).\
                 values(tax_pot = alter_tax_pot)
 
-        self.connection.execute(stmt)
+        self.session.execute(stmt)
 
         return
 
@@ -315,7 +321,7 @@ class Server(DatabaseConntection):
         stmt = update(Servers).where(Servers.server_id == server_id).\
                 values(msg_point_max = point_set)
 
-        self.connection.execute(stmt)
+        self.session.execute(stmt)
 
         return
 
@@ -330,7 +336,7 @@ class Server(DatabaseConntection):
         stmt = update(Servers).where(Servers.server_id == server_id).\
                 values(msg_point_min = point_set)
 
-        self.connection.execute(stmt)
+        self.session.execute(stmt)
 
         return
 
@@ -345,7 +351,7 @@ class Server(DatabaseConntection):
         stmt = update(Servers).where(Servers.server_id == server_id).\
                 values(msg_xp_max = xp_set)
 
-        self.connection.execute(stmt)
+        self.session.execute(stmt)
 
         return
 
@@ -360,7 +366,7 @@ class Server(DatabaseConntection):
         stmt = update(Servers).where(Servers.server_id == server_id).\
                 values(msg_xp_min = xp_set)
 
-        self.connection.execute(stmt)
+        self.session.execute(stmt)
 
         return
 
@@ -375,7 +381,7 @@ class Server(DatabaseConntection):
         stmt = update(Servers).where(Servers.server_id == server_id).\
                 values(cmd_point_max = point_set)
 
-        self.connection.execute(stmt)
+        self.session.execute(stmt)
 
     @IsInteger
     def cmd_point_min_set(self, server_id, point_set):
@@ -388,7 +394,7 @@ class Server(DatabaseConntection):
         stmt = update(Servers).where(Servers.server_id == server_id).\
                 values(cmd_point_min = point_set)
 
-        self.connection.execute(stmt)
+        self.session.execute(stmt)
 
         return
 
@@ -403,7 +409,7 @@ class Server(DatabaseConntection):
         stmt = update(Servers).where(Servers.server_id == server_id).\
                 values(cmd_xp_max = xp_set)
 
-        self.connection.execute(stmt)
+        self.session.execute(stmt)
 
         return
 
@@ -418,7 +424,7 @@ class Server(DatabaseConntection):
         stmt = update(Servers).where(Servers.server_id == server_id).\
                 values(cmd_xp_min = xp_set)
 
-        self.connection.execute(stmt)
+        self.session.execute(stmt)
 
         return
 
@@ -433,7 +439,7 @@ class Server(DatabaseConntection):
         stmt = update(Servers).where(Servers.server_id == server_id).\
                 values(level_base_xp = xp_set)
 
-        self.connection.execute(stmt)
+        self.session.execute(stmt)
 
         return
 
@@ -448,7 +454,7 @@ class Server(DatabaseConntection):
         stmt = update(Servers).where(Servers.server_id == server_id).\
                 values(level_scaling_xp = xp_set)
 
-        self.connection.execute(stmt)
+        self.session.execute(stmt)
 
         return
 
@@ -463,7 +469,7 @@ class Server(DatabaseConntection):
         stmt = update(Servers).where(Servers.server_id == server_id).\
                 values(level_scaling_max = xp_set)
 
-        self.connection.execute(stmt)
+        self.session.execute(stmt)
 
         return
 
@@ -478,7 +484,7 @@ class Server(DatabaseConntection):
         stmt = update(Servers).where(Servers.server_id == server_id).\
                 values(post_level = boolean_set)
 
-        self.connection.execute(stmt)
+        self.session.execute(stmt)
 
         return
 
@@ -493,7 +499,7 @@ class Server(DatabaseConntection):
         stmt = update(Servers).where(Servers.server_id == server_id).\
                 values(post_level_msg = level_msg)
 
-        self.connection.execute(stmt)
+        self.session.execute(stmt)
 
         return
 
@@ -508,7 +514,7 @@ class Server(DatabaseConntection):
         stmt = update(Servers).where(Servers.server_id == server_id).\
                 values(post_level_same_channel_as_msg = boolean_set)
 
-        self.connection.execute(stmt)
+        self.session.execute(stmt)
 
         return
 
@@ -523,7 +529,7 @@ class Server(DatabaseConntection):
         stmt = update(Servers).where(Servers.server_id == server_id).\
                 values(post_info_channel = channel_set)
 
-        self.connection.execute(stmt)
+        self.session.execute(stmt)
 
         return
 
@@ -538,7 +544,7 @@ class Server(DatabaseConntection):
         stmt = update(Servers).where(Servers.server_id == server_id).\
                 values(casino_state = state_set)
 
-        self.connection.execute(stmt)
+        self.session.execute(stmt)
 
         return
 
@@ -553,7 +559,7 @@ class Server(DatabaseConntection):
         stmt = update(Servers).where(Servers.server_id == server_id).\
                 values(welcome_channel = channel_set)
 
-        self.connection.execute(stmt)
+        self.session.execute(stmt)
 
         return
 
@@ -568,7 +574,7 @@ class Server(DatabaseConntection):
         stmt = update(Servers).where(Servers.server_id == server_id).\
                 values(welcome_message = message_set)
 
-        self.connection.execute(stmt)
+        self.session.execute(stmt)
 
         return
 
@@ -583,7 +589,7 @@ class Server(DatabaseConntection):
         stmt = update(Servers).where(Servers.server_id == server_id).\
                 values(welcome_private = message_set)
 
-        self.connection.execute(stmt)
+        self.session.execute(stmt)
 
         return
 
@@ -598,7 +604,7 @@ class Server(DatabaseConntection):
         stmt = update(Servers).where(Servers.server_id == server_id).\
                 values(welcome_private_message = message_set)
 
-        self.connection.execute(stmt)
+        self.session.execute(stmt)
 
         return
 
@@ -613,7 +619,7 @@ class Server(DatabaseConntection):
         stmt = update(Servers).where(Servers.server_id == server_id).\
                 values(goodbye_channel = message_set)
 
-        self.connection.execute(stmt)
+        self.session.execute(stmt)
 
         return
 
@@ -628,11 +634,14 @@ class Server(DatabaseConntection):
         stmt = update(Servers).where(Servers.server_id == server_id).\
                 values(goodbye_message = message_set)
 
-        self.connection.execute(stmt)
+        self.session.execute(stmt)
 
         return
 
-class Message(DatabaseConntection):
+class Message:
+
+    def __init__(self, session):
+        self.session = session
 
     @Commit
     def add(self, message, deleted=False):
@@ -684,17 +693,20 @@ class Message(DatabaseConntection):
                                            Messages.private == private)).\
                 values(deleted = True)
 
-        self.connection.execute(stmt)
+        self.session.execute(stmt)
 
         return
 
-class Points(DatabaseConntection):
+class Points:
+
+    def __init__(self, session):
+        self.session = session
 
     @Commit
     def add(self, d_id, server_id, mode_id,
             mode_name, private=False, stake_points=0, stake_tokens=0,
-            outcome_points=0, outcome_tokens=0, info1=None,
-            info2=None, info3=None, info4h=None,
+            outcome_points=0, outcome_tokens=0, info1="",
+            info2="", info3="", info4h="",
             info5h=0, plus=0, minus=0):
 
         pointsadd = PointHistory(d_id, server_id, mode_id,
@@ -707,8 +719,23 @@ class Points(DatabaseConntection):
 
         return
 
+    def get_min_bank_amount(mode, interval, d_id):
 
-class Bot(DatabaseConntection):
+        current_time = datetime.utcnow()
+
+        time_ago = current_time - timedelta(seconds=interval)
+
+        response = self.session.query(func.min(PointHistory.info5h).label("min_bank")).\
+                        filter(and_(PointHistory.first_contact > time_ago,
+                                PointHistory.d_id == d_id,
+                                PointHistory.mode_id == mode))
+
+        return response
+
+class Bot:
+
+    def __init__(self, session):
+        self.session = session
 
     @Commit
     def add(self, total_restarts = 0, cmd_xp_max = 15, cmd_xp_min = 15,
@@ -739,7 +766,7 @@ class Bot(DatabaseConntection):
 
         stmt = update(BotInfo).values(total_restarts = BotInfo.total_restarts + 1)
 
-        self.connection.execute(stmt)
+        self.session.execute(stmt)
         Cache.botinfo.total_restarts += 1
         return
 
@@ -748,7 +775,10 @@ class Bot(DatabaseConntection):
         self.session.close()
 
 
-class Command(DatabaseConntection):
+class Command:
+
+    def __init__(self, session):
+        self.session = session
 
     @Commit
     def add(self, server, author,

@@ -51,9 +51,43 @@
     }
   },
   {
+    "call": "bank",
+    "aliases": [],
+    "owner": false,
+    "class_name": "Bank",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": " ",
+      "split": 5,
+      "length": [0,1,2]
+    }
+  },
+  {
+    "call": "points",
+    "aliases": ["memes", "p", "m"],
+    "owner": false,
+    "class_name": "UserPoints",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": " ",
+      "split": 5,
+      "length": [0,1]
+    }
+  },
+  {
     "call": "stab",
     "aliases": [],
-    "owner": true,
+    "owner": false,
     "class_name": "Stab",
     "info": "",
     "syntax": "",
@@ -70,7 +104,7 @@
   {
     "call": "slap",
     "aliases": [],
-    "owner": true,
+    "owner": false,
     "class_name": "Slap",
     "info": "",
     "syntax": "",
@@ -201,6 +235,210 @@
       "delimeter": " ",
       "split": 1,
       "length": [2]
+    }
+  },
+  {
+    "call": "ping",
+    "aliases": [],
+    "owner": false,
+    "class_name": "Ping",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [0]
+    }
+  },
+  {
+    "call": "trump",
+    "aliases": ["bing", "bong"],
+    "owner": false,
+    "class_name": "Trump",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [1]
+    }
+  },
+  {
+    "call": "catfact",
+    "aliases": [],
+    "owner": false,
+    "class_name": "CatFact",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [0]
+    }
+  },
+  {
+    "call": "dogfact",
+    "aliases": [],
+    "owner": false,
+    "class_name": "DogFact",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [0]
+    }
+  },
+  {
+    "call": "yomama",
+    "aliases": ["mama", "mutsis"],
+    "owner": false,
+    "class_name": "YoMama",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [0]
+    }
+  },
+  {
+    "call": "chucknorris",
+    "aliases": ["chuck", "norris"],
+    "owner": false,
+    "class_name": "ChuckNorris",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [0]
+    }
+  },
+  {
+    "call": "dad",
+    "aliases": ["father", "norris"],
+    "owner": false,
+    "class_name": "Dad",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [0]
+    }
+  },
+  {
+    "call": "gender",
+    "aliases": ["sukupuoli"],
+    "owner": false,
+    "class_name": "Gender",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [1]
+    }
+  },
+  {
+    "call": "geolocation",
+    "aliases": ["geo", "location"],
+    "owner": false,
+    "class_name": "GeoLocation",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [1]
+    }
+  },
+  {
+    "call": "weather",
+    "aliases": [],
+    "owner": false,
+    "class_name": "Weather",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [1]
+    }
+  },
+  {
+    "call": "wikipedia",
+    "aliases": ["wiki"],
+    "owner": false,
+    "class_name": "Wikipedia",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [1]
+    }
+  },
+  {
+    "call": "youtube",
+    "aliases": ["yt"],
+    "owner": false,
+    "class_name": "Youtube",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [1]
     }
   },
   {

@@ -1,9 +1,14 @@
 from main import Bot
 
-def main():
+#import logging, sys
 
-    m = Bot()
-    m.start_bot()
+# logging
+#LOG_FILENAME = 'bot.log'
+#logging.basicConfig(filename=LOG_FILENAME, level=logging.WARNING)
+
+def main():
+    DiscordBot = Bot()
+    DiscordBot.start_bot()
 
 if __name__ == "__main__":
     main()

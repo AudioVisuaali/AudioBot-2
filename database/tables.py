@@ -19,12 +19,13 @@ class BotInfo(Base):
     level_base_xp = Column(Integer, nullable=False, default=2000)
     level_scaling_xp = Column(Integer, nullable=False, default=200)
     level_scaling_max = Column(Integer, nullable=False, default=40)
+    module_timeout = Column(Integer, nullable=False, default=1)
 
     def __init__(self, total_restarts = 0, cmd_xp_max = 15,
                  cmd_xp_min = 15, msg_point_max = 2, msg_point_min = 2,
                  msg_xp_max = 25, msg_xp_min = 15, cmd_point_max = 1,
                  cmd_point_min = 1, level_base_xp = 2000, level_scaling_xp = 200,
-                 level_scaling_max = 40):
+                 level_scaling_max = 40, module_timeout = 1):
 
         self.total_restarts = total_restarts
         self.cmd_xp_max = cmd_xp_max
@@ -38,6 +39,7 @@ class BotInfo(Base):
         self.level_base_xp = level_base_xp
         self.level_scaling_xp = level_scaling_xp
         self.level_scaling_max = level_scaling_max
+        self.module_timeout = module_timeout
 
 class Servers(Base):
     __tablename__ = "servers"

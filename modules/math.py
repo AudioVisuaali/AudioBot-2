@@ -12,7 +12,10 @@ class Math:
 
             # Calling function
             nsp = nps.NumericStringParser()
-            result = nsp.eval(arguments[0])
+            try:
+                result = nsp.eval(arguments[0])
+            except ZeroDivisionError:
+                result = "an error, can't divide with zero!"
 
             # removing .0 when value is int
             try:

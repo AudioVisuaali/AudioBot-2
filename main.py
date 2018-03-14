@@ -3,19 +3,25 @@ from database.database import Database
 from utils import Utils, Timeout
 from random import randint
 from asyncio import sleep as asleep
+import asyncio
 import modules
+import sys
+import logging
 
-database = Database()
+logger = logging.getLogger(__name__)
 
 class Bot(Client):
 
     def __init__(self):
 
+        # Load discord
         Client.__init__(self)
 
+        # Load utils
         self.utils = Utils()
         self.timeout = Timeout()
 
+        # Define utils
         self.send = self.utils.send
         self.modules = self.utils.get_modules_info()
         self.config = self.utils.get_config_info()
@@ -26,22 +32,21 @@ class Bot(Client):
 
     def start_bot(self):
 
-        # Try to start bot
         try:
+            try:
+                self.database = Database()
+                self.database.connect()
+            except Exception as e:
+                self._quit("Database connection error!")
+
             self.loop.run_until_complete(self.start(self.config.bot.token))
 
-        # Check for KeyboardInterrupt
         except KeyboardInterrupt:
-            self.loop.run_until_complete(self.logout())
-            database.bot.close()
-            database.dispose()
+            self._cleanup()
 
-        # If KeyboardInterrupt stop bot and close stuff
         finally:
-            self.loop.close()
-            print("Bot has been closed")
-
-        return
+            sys.stdout.write("Bot has been closed\n")
+            return
 
     # Bot has connected to discord
     async def on_ready(self):
@@ -52,14 +57,45 @@ class Bot(Client):
 
         return
 
+    def _quit(self, msg = ""):
+        sys.exit(msg + "\n")
+
+    def _cleanup(self):
+
+        try:
+            self.loop.run_until_complete(self.logout())
+            self.database.close()
+            self.database.dispose()
+        except: pass
+        finally:
+            pending = asyncio.Task.all_tasks()
+            gathered = asyncio.gather(*pending)
+
+        try:
+            gathered.cancel()
+            self.loop.run_until_complete(gathered)
+            gathered.exception()
+        except: pass
+        finally:
+            self.loop.close()
+
+    def restart_bot(self):
+
+        try:
+            self._cleanup()
+        except:
+            self._quit("error restarting the bot")
+        finally:
+            self.start_bot()
+
     async def on_member_join(self, member):
 
-        server_exists = database.server.exists(member.server.id)
+        server_exists = self.database.server.exists(member.server.id)
 
         if not server_exists:
-            database.server.add(member.server.id)
+            self.database.server.add(member.server.id)
 
-        server_info = database.server.get(member.server.id)
+        server_info = self.database.server.get(member.server.id)
 
         if server_info.welcome_channel != None:
 
@@ -80,7 +116,7 @@ class Bot(Client):
 
     async def on_member_remove(self, member):
 
-        server_info = database.server.get_from_server_aut_add(member.sesrver)
+        server_info = self.database.server.get_from_server_aut_add(member.sesrver)
 
         name = self.utils.author_nickanme(member)
 
@@ -96,7 +132,7 @@ class Bot(Client):
 
     async def on_message_delete(self, message):
 
-        database.message.delete(message)
+        self.database.message.delete(message)
 
         return
 
@@ -111,13 +147,16 @@ class Bot(Client):
                 return module
 
     async def import_module(self, name):
+
         components = name.split('.')
         mod = __import__(components[0])
+
         for comp in components[1:]:
             mod = getattr(mod, comp)
+
         return mod
 
-    async def filter_module(self, message, database, server_stats):
+    async def filter_module(self, message, server_stats):
 
         if not message.content.startswith(server_stats.command_start):
             return
@@ -163,27 +202,27 @@ class Bot(Client):
                     return
 
         class_ = getattr(modules, class_name_)()
-        await class_.main(self, database, message, arguments)
+        await class_.main(self, self.database, message, arguments)
 
-        # Remove cd
-        await asleep(1)
+        await asleep(self.database.cache.botinfo.module_timeout)
+
         await self.timeout.user_cmd_remove(message.author.id, command)
 
     async def on_message(self, message):
-        """Doesn't really like private messages yet"""
+        """Doesn't really like private messages yet, actually not at all"""
         name = self.utils.author_nickanme(message.author)
 
         self.send(1, "{} > {}".format(name, message.content))
 
-        database.message.add(message)
+        self.database.message.add(message)
 
         if message.channel.is_private:
             #TODO ADD HELP MODULE HERE
             return
 
-        user_stats = database.user.get_from_msg_aut_add(message)
-        server_stats = database.server.get_from_server_aut_add(message.server)
-        bot_stats = database.bot.get()
+        user_stats = self.database.user.get_from_msg_aut_add(message)
+        server_stats = self.database.server.get_from_server_aut_add(message.server)
+        bot_stats = self.database.bot.get()
 
         if message.content.startswith(server_stats.command_start):
             points_amount = randint(bot_stats.cmd_point_min, bot_stats.cmd_point_max)
@@ -196,15 +235,15 @@ class Bot(Client):
 
         if not messages_active:
 
-            database.user.points_alter(message.author.id, points_amount)
-            database.user.xp_alter(message.author.id, xp_amount)
+            self.database.user.points_alter(message.author.id, points_amount)
+            self.database.user.xp_alter(message.author.id, xp_amount)
             await self.timeout.user_msg(message.author.id)
 
         levels = self.utils.level_check(message.author.id, user_stats.xp, user_stats.level,
                                         bot_stats.level_base_xp, bot_stats.level_scaling_xp,
                                         bot_stats.level_scaling_max)
         if levels.set_level:
-            database.user.level_alter(message.author.id, 1)
+            self.database.user.level_alter(message.author.id, 1)
 
             if server_stats.post_level:
                 letter = server_stats.post_level_msg
@@ -219,6 +258,6 @@ class Bot(Client):
         if message.author.id == self.user.id:
             return
 
-        await self.filter_module(message, database, server_stats)
+        await self.filter_module(message, server_stats)
 
         return

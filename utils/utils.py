@@ -2,7 +2,8 @@ from datetime import datetime, timedelta
 from collections import namedtuple
 from random import randint
 from json import loads, dumps, load
-
+from utils.web import Web
+from utils.time import Time
 class Utils:
 
     def __init__(self):
@@ -14,6 +15,8 @@ class Utils:
         self.lennyfaces = self.get_lennyfaces()
         self.eightBall = self.get_eightball()
         self.starttime = datetime.now()
+        self.time = Time()
+        self.web = Web()
 
     def send(self, value, message):
 
@@ -29,10 +32,14 @@ class Utils:
         letter = str("{:[%Y-%m-%d %H:%M:%S.%f}".format(datetime.now())[:-3]+"]") + help_type + " " + message
         print(letter)
 
+
+
     def _json_object_hook(self, d):
         return namedtuple('X', d.keys())(*d.values())
 
     def json2obj(self, data):
+        if data is None:
+            return
         return loads(data, object_hook=self._json_object_hook)
 
     def open_file_json(self, file):
@@ -80,7 +87,6 @@ class Utils:
                 return author.nick
         except:
             return
-
 
     # Gives user instance
     async def get_user_instance(server, search):
