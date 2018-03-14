@@ -85,6 +85,23 @@
     }
   },
   {
+    "call": "tokens",
+    "aliases": ["token", "t"],
+    "owner": false,
+    "class_name": "Tokens",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 5,
+      "length": [0,1]
+    }
+  },
+  {
     "call": "stab",
     "aliases": [],
     "owner": false,
@@ -429,6 +446,125 @@
     "aliases": ["yt"],
     "owner": false,
     "class_name": "Youtube",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [1]
+    }
+  },
+  {
+    "call": "bitcoin",
+    "aliases": ["bt"],
+    "owner": false,
+    "class_name": "Bitcoin",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [0]
+    }
+  },
+  {
+    "call": "urban",
+    "aliases": [],
+    "owner": false,
+    "class_name": "Urban",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [1]
+    }
+  },
+  {
+    "call": "translate",
+    "aliases": [],
+    "owner": false,
+    "class_name": "Translate",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [1]
+    }
+  },
+  {
+    "call": "serverstats",
+    "aliases": ["server"],
+    "owner": false,
+    "class_name": "ServerStats",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [0]
+    }
+  },
+  {
+    "call": "reverse",
+    "aliases": [],
+    "owner": false,
+    "class_name": "Reverse",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [1]
+    }
+  },
+  {
+    "call": "spongebob",
+    "aliases": [],
+    "owner": false,
+    "class_name": "SpOnGeBoB",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [1]
+    }
+  },
+  {
+    "call": "slotmachine",
+    "aliases": ["slots"],
+    "owner": false,
+    "class_name": "SlotMachine",
     "info": "",
     "syntax": "",
     "exmaple": [{

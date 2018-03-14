@@ -26,3 +26,12 @@ from modules.geolocation import GeoLocation
 from modules.weather import Weather
 from modules.wikipedia import Wikipedia
 from modules.youtube import Youtube
+from modules.bitcoin import Bitcoin
+from modules.roll import Roll
+from modules.serverstats import ServerStats
+from modules.reverse import Reverse
+from modules.spongebob import SpOnGeBoB
+from modules.slotmachine import SlotMachine
+from modules.tokens import Tokens
+from modules.urban import Urban
+from modules.translate import Translate

@@ -15,9 +15,9 @@ class Trump:
 
         else:
             hits = ""
-            #letter = ":rofl: **| Found " + str(response["total"]) + " hits\n```" + response["_embedded"]["quotes"][0]["value"] + "```"
             for asd in trump.embedded.quotes:
                 hits += "```{}```".format(asd.value)
+                
             letter = ":rofl: **| Found {} hits**\n{}".format(trump.total, hits)
 
         await bot.say(message.channel, letter)
