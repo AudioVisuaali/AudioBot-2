@@ -13,4 +13,6 @@ class RemoveCommand:
 
             letter = ":white_check_mark: **| Command __{}__ removed database!**"
 
-        await bot.say(message.channel, letter.format(arguments[0]))
+        letter = letter.format(arguments[0])
+
+        await bot.say(message.channel, letter)

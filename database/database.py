@@ -86,6 +86,8 @@ class Cache(DatabaseConntection):
             Bot.add(self, total_restarts = 0, cmd_xp_max = 15, cmd_xp_min = 15, msg_xp_max = 25, msg_xp_min = 15)
         else:
             Cache.botinfo = botstats[0]
+
+        Bot.restarts_add(self)
         return
 
 # User
@@ -734,6 +736,11 @@ class Bot(DatabaseConntection):
         return
 
     def restarts_add(self):
+
+        stmt = update(BotInfo).values(total_restarts = BotInfo.total_restarts + 1)
+
+        self.connection.execute(stmt)
+        Cache.botinfo.total_restarts += 1
         return
 
     def close(self):

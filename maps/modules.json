@@ -17,6 +17,125 @@
     }
   },
   {
+    "call": "channels",
+    "aliases": [],
+    "owner": true,
+    "class_name": "ServerChannel",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [0]
+    }
+  },
+  {
+    "call": "roulette",
+    "aliases": [],
+    "owner": true,
+    "class_name": "Roulette",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": " ",
+      "split": 1,
+      "length": [1]
+    }
+  },
+  {
+    "call": "stab",
+    "aliases": [],
+    "owner": true,
+    "class_name": "Stab",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 2,
+      "length": [1]
+    }
+  },
+  {
+    "call": "slap",
+    "aliases": [],
+    "owner": true,
+    "class_name": "Slap",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 2,
+      "length": [1]
+    }
+  },
+  {
+    "call": "choose",
+    "aliases": [],
+    "owner": false,
+    "class_name": "Choose",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": "|",
+      "split": 99,
+      "length": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
+    }
+  },
+  {
+    "call": "online",
+    "aliases": [],
+    "owner": false,
+    "class_name": "BotStart",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 6,
+      "length": [0]
+    }
+  },
+  {
+    "call": "dice",
+    "aliases": [],
+    "owner": false,
+    "class_name": "Dice",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": " ",
+      "split": 6,
+      "length": [0,1]
+    }
+  },
+  {
     "call": "eightball",
     "aliases": ["8ball"],
     "owner": false,
