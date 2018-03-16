@@ -1,13 +1,14 @@
 from sqlalchemy import (Table, Column, Integer,
                         Date, select, literal, and_,
                         exists, create_engine, update,
-                        func)
+                        func, desc)
 from sqlalchemy.orm import sessionmaker, joinedload
 from sqlalchemy.sql import exists, and_
 from utils.decorators import Commit, IsBoolean, IsInteger, IsString
 from database.tables import (Servers, Users, Messages,
                              PointHistory, Commands, BotInfo,
-                             Base)
+                             DailyRedeem, Nicknames, Doubles,
+                             Status, Base)
 from datetime import datetime, timedelta
 from utils import Utils
 import time
@@ -30,6 +31,7 @@ class Database:
 
         # creating engine
         self.addr = '{0.type}://{0.username}:{0.password}@{0.address}/{0.database}'.format(self.config.database)
+
         self.engine = create_engine(self.addr, echo=False, convert_unicode=True)
 
         # Creating tables
@@ -47,6 +49,10 @@ class Database:
         self.bot = Bot(self.session)
         self.command = Command(self.session)
         self.cache = Cache(self.session)
+        self.redeem = Redeem(self.session)
+        self.nickname= Nickname(self.session)
+        self.double = Double(self.session)
+        self.status = UserStatus(self.session)
 
         # Creating cache
         Cache.get_cache(self)
@@ -59,6 +65,20 @@ class Database:
 
         self.engine.dispose()
 
+class UserStatus:
+
+    def __init__(self, session):
+        self.session = session
+
+    @Commit
+    def add(self, d_id, game_from, game_to, game_type, status_from, status_to):
+
+        add_double = Status(d_id, game_from, game_to, game_type,
+                             status_from, status_to)
+
+        self.session.add(add_double)
+        return
+
 class Cache:
 
     def __init__(self, session):
@@ -68,6 +88,7 @@ class Cache:
     servers = []
     commands = []
     module_timeouts = []
+    nicknames = []
     botinfo = None
 
     def get_cache(self):
@@ -81,6 +102,9 @@ class Cache:
         for command in Command.get_all(self):
             Cache.commands.append(command)
 
+        for nickname in Nickname.get_all(self):
+            Cache.nicknames.append(nickname)
+
         botstats = Bot.get_all(self)
         if not botstats:
             Bot.add(self, total_restarts = 0, cmd_xp_max = 15, cmd_xp_min = 15, msg_xp_max = 25, msg_xp_min = 15)
@@ -89,6 +113,84 @@ class Cache:
 
         Bot.restarts_add(self)
         return
+
+    def reload_cache(self):
+        calc = 0
+        _users = []
+        _servers = []
+        _commands = []
+        _module_timeouts = []
+        _nicknames = []
+        _botinfo = None
+
+        for server in Server.get_all(self):
+            calc += 1
+            _servers.append(server)
+
+        for user in User.get_all(self):
+            calc += 1
+            _users.append(user)
+
+        for command in Command.get_all(self):
+            calc += 1
+            _commands.append(command)
+
+        for nickname in Nickname.get_all(self):
+            calc += 1
+            _nicknames.append(nickname)
+
+        botstats = Bot.get_all(self)
+        if not botstats:
+            Bot.add(self, total_restarts = 0, cmd_xp_max = 15, cmd_xp_min = 15, msg_xp_max = 25, msg_xp_min = 15)
+        else:
+            _botinfo = botstats[0]
+        calc += 1
+
+        Cache.servers = _servers
+        Cache.users = _users
+        Cache.commands = _commands
+        Cache.nicknames = _nicknames
+        Cache.botinfo = _botinfo
+
+        return calc
+
+
+class Double:
+
+    def __init__(self, session):
+        self.session = session
+
+    @Commit
+    def add(self, d_id, number1, number2, is_double,
+            victory_memes, victory_tokens):
+
+        add_double = Doubles(d_id, number1, number2, is_double,
+                             victory_memes, victory_tokens)
+
+        self.session.add(add_double)
+        return
+
+    def get_stats_user(self, d_id):
+
+        asd = self.session.query(func.count(Doubles.d_id).\
+                                    filter(Doubles.d_id == d_id),
+                                 func.count(Doubles.d_id).\
+                                    filter(and_(Doubles.is_double == True,
+                                                Doubles.d_id == d_id)),
+                                 func.sum(Doubles.victory_memes).\
+                                    filter(Doubles.d_id == d_id),
+                                 func.sum(Doubles.victory_tokens).\
+                                    filter(Doubles.d_id == d_id)).\
+                                 all()[0]
+
+        class Fdg:
+            def __init__(self, rows, doubles, memes, tokens):
+                self.rows = rows
+                self.doubles = doubles
+                self.memes = memes
+                self.tokens = tokens
+
+        return Fdg(asd[0],asd[1],asd[2],asd[3])
 
 # User
 class User:
@@ -297,15 +399,14 @@ class Server:
         return
 
     @IsInteger
-    def tax_pot_alter(self, server_id, alter_tax_pot):
+    def tax_pot_alter(self, server_id, tax_pot_alter):
 
         for server in Cache.servers:
             if server.server_id == server_id:
-                server.tax_pot = alter_tax_pot
+                server.tax_pot += tax_pot_alter
 
         stmt = update(Servers).where(Servers.server_id == server_id).\
-                values(tax_pot = alter_tax_pot)
-
+                values(tax_pot = Servers.tax_pot + tax_pot_alter)
         self.session.execute(stmt)
 
         return
@@ -732,6 +833,12 @@ class Points:
 
         return response
 
+    def get_history_user(self, d_id, total = 10):
+
+        response = self.session.query(PointHistory).filter(PointHistory.d_id == d_id).order_by(desc(PointHistory.first_contact)).limit(total).all()
+
+        return response
+
 class Bot:
 
     def __init__(self, session):
@@ -774,6 +881,24 @@ class Bot:
 
         self.session.close()
 
+class Redeem:
+
+    def __init__(self, session):
+        self.session = session
+
+    @Commit
+    def add(self, d_id, day, amount):
+
+        add_command = DailyRedeem(d_id, day, amount)
+
+        self.session.add(add_command)
+        return
+
+    def check_daily(self, d_id, day):
+
+        return self.session.query(DailyRedeem).filter(and_(DailyRedeem.d_id == d_id,
+                                           DailyRedeem.day == day)).all()
+        return response
 
 class Command:
 
@@ -823,3 +948,40 @@ class Command:
         for command in Cache.commands:
             if command.server_id == server.id and command.command == call:
                 return command
+
+    def get_all_server(self, server_id):
+
+        command_list = []
+
+        for command in Cache.commands:
+            if command.server_id == server_id:
+                command_list.append(command)
+
+        return command_list
+
+class Nickname:
+
+    def __init__(self, session):
+        self.session = session
+
+    @Commit
+    def add(self, d_id, nickname_before, nickname_after):
+
+        add_nick = Nicknames(d_id, nickname_before, nickname_after)
+
+        Cache.commands.append(add_nick)
+        self.session.add(add_nick)
+        return
+
+    def get_all(self):
+        return self.session.query(Nicknames).all()
+
+    def get_user_nicks(self, d_id):
+
+        nick_list = []
+
+        for nickname in Cache.nicknames:
+            if nickname.d_id == d_id:
+                nick_list.append(nickname)
+
+        return nick_list

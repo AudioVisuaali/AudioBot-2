@@ -4,6 +4,8 @@ from random import randint
 from json import loads, dumps, load
 from utils.web import Web
 from utils.time import Time
+
+
 class Utils:
 
     def __init__(self):
@@ -89,7 +91,7 @@ class Utils:
             return
 
     # Gives user instance
-    async def get_user_instance(server, search):
+    async def get_user_instance(self, server, search):
 
         # Checking for part of the name
         for member in server.members:
@@ -97,7 +99,7 @@ class Utils:
                 return member
 
         # Checking for part of the nick
-        for member in message.server.members:
+        for member in server.members:
             try:
                 if str(search).lower() in member.nick.lower():
                     return member
@@ -131,21 +133,30 @@ class Utils:
         else:
             return response
 
+    def level_from_xp(self, level, level_base_xp, level_scaling_xp, level_scaling_max):
+        if level > level_scaling_max:
+            level = level_scaling_max
+        #Scaling level BTW haHAA
+        total = level_base_xp + level_scaling_xp*level
+        return total
+
     def level_xp(self, number, level_base_xp, level_scaling_xp, level_scaling_max, levl=0, result=0):
 
         while 1:
             result = self.level_from_xp(levl, level_base_xp, level_scaling_xp, level_scaling_max)
             if result > number:
+                levels_xp = self.level_from_xp(level_base_xp, level_base_xp, level_scaling_xp, level_scaling_max)
 
                 class Bedf:
-                    def __init__(self, old_level, overleft_xp, new_level, set_level = False):
+                    def __init__(self, old_level, overleft_xp, new_level, levels_xp, set_level = False):
 
                         self.set_level = False
                         self.new_level = old_level
                         self.overleft_xp = overleft_xp
                         self.old_level = new_level
+                        self.levels_xp = levels_xp
 
-                return Bedf(levl, number, result)
+                return Bedf(levl, number, result, levels_xp)
             number = number - result
             levl += 1
 
@@ -155,6 +166,20 @@ class Utils:
             level = level_scaling_max
 
         return level_base_xp + (level_scaling_xp * level)
+
+    #mess
+    def level_check_command(self, author, level_base_xp, level_scaling_xp, level_scaling_max):
+
+        # info = mysqlfiles.get_xp_and_level_by_id(author.id)
+
+        xp = author.xp
+        level = author.level
+        response = level_xp(xp, level_base_xp, level_scaling_xp, level_scaling_max)
+        rlist = []
+
+        rlist.append("1")
+        rlist.extend(response)
+        return(rlist)
 
 class Timeout:
 

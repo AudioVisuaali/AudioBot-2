@@ -14,14 +14,10 @@ class Bot(Client):
 
     def __init__(self):
 
-        # Load discord
         Client.__init__(self)
-
-        # Load utils
         self.utils = Utils()
         self.timeout = Timeout()
 
-        # Define utils
         self.send = self.utils.send
         self.modules = self.utils.get_modules_info()
         self.config = self.utils.get_config_info()
@@ -38,6 +34,7 @@ class Bot(Client):
                 self.database.connect()
             except Exception as e:
                 self._quit("Database connection error!")
+                return
 
             self.loop.run_until_complete(self.start(self.config.bot.token))
 
@@ -48,7 +45,6 @@ class Bot(Client):
             sys.stdout.write("Bot has been closed\n")
             return
 
-    # Bot has connected to discord
     async def on_ready(self):
 
         self.send(1, "Logged in as: {}".format(self.user.name))
@@ -98,7 +94,6 @@ class Bot(Client):
         server_info = self.database.server.get(member.server.id)
 
         if server_info.welcome_channel != None:
-
             channel = self.get_channel(server_info.welcome_channel)
             letter = server_info.welcome_message
 
@@ -106,7 +101,6 @@ class Bot(Client):
                 await self.send_message(channel, letter.format(member.name, member.server.name)) #{0=username} {1=servername}
 
         if server_info.welcome_private:
-
             letter = server_info.welcome_private_message
 
             if letter != "":
@@ -117,16 +111,36 @@ class Bot(Client):
     async def on_member_remove(self, member):
 
         server_info = self.database.server.get_from_server_aut_add(member.sesrver)
-
         name = self.utils.author_nickanme(member)
 
         if server_info.goodbye_channel != None:
-
             channel = self.get_channel(server_info.goodbye_channel)
             letter = server_info.goodbye_message
 
             if letter != "":
                 await self.send_message(channel, letter.format(member.name, member.nick, name, member.server.name)) #{0=username} {1=usernick} {2=nick then name}{3=servername}
+
+        return
+
+    async def on_member_update(self, before, after):
+
+        if before.nick != after.nick:
+            self.send(1, "Adding nick for {}".format(before.name))
+            self.database.nickname.add(before.id, before.nick, after.nick)
+
+        if (before.game != after.game) or (before.status != after.status):
+
+            try: game_before = before.game.name
+            except: game_before = ""
+
+            try: game_after = after.game.name
+            except: game_after = ""
+
+            try: game_type = after.game.type
+            except: game_type = 0
+
+            self.send(1, "Updating game for {}".format(before.name))
+            self.database.status.add(after.id, game_before, game_after, game_type, str(before.status), str(after.status))
 
         return
 
@@ -145,16 +159,6 @@ class Bot(Client):
         for module in self.modules:
             if module_name == module.call or module_name in module.aliases:
                 return module
-
-    async def import_module(self, name):
-
-        components = name.split('.')
-        mod = __import__(components[0])
-
-        for comp in components[1:]:
-            mod = getattr(mod, comp)
-
-        return mod
 
     async def filter_module(self, message, server_stats):
 
