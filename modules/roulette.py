@@ -138,7 +138,7 @@ class Roulette:
                 minus = int(user_gamble)
                 info1 = "Lose"
 
-            #points_stats_insert(message.server.id, message.author.id, 5, "Roulette", str(user_gamble), "", win_str_plus, "", info1, info2, info3, "", 0, plus, minus)
+            bot.database.pointhistory.add(message.author.id, message.server.id, 5, "Roulette", False, str(user_gamble), "", win_str_plus, "", info1, info2, info3, "", 0, plus, minus)
 
             # Sending message, checking if worth of excitement
             if user_gamble / user_points > 0.8:

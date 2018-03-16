@@ -338,7 +338,7 @@ class SlotMachine:
                 bot.database.user.points_alter(message.author.id, -win_amount)
 
             # gamble logging adding
-            bot.database.pointhistory.add(message.server.id, message.author.id, 8, "Slots", False, arguments[0], "", win_str_plus, "", info1, info2, info3, "", 0, plus, minus)
+            bot.database.pointhistory.add(message.author.id, message.server.id, 8, "Slots", False, arguments[0], "", win_str_plus, "", info1, info2, info3, "", 0, plus, minus)
             # Send state 1
             sent = await bot.say(message.channel, header1)
 

@@ -20,12 +20,15 @@ class BotInfo(Base):
     level_scaling_xp = Column(Integer, nullable=False, default=200)
     level_scaling_max = Column(Integer, nullable=False, default=40)
     module_timeout = Column(Integer, nullable=False, default=1)
+    daily_min = Column(Integer, nullable=False, default=200)
+    daily_max = Column(Integer, nullable=False, default=40)
 
     def __init__(self, total_restarts = 0, cmd_xp_max = 15,
                  cmd_xp_min = 15, msg_point_max = 2, msg_point_min = 2,
                  msg_xp_max = 25, msg_xp_min = 15, cmd_point_max = 1,
                  cmd_point_min = 1, level_base_xp = 2000, level_scaling_xp = 200,
-                 level_scaling_max = 40, module_timeout = 1):
+                 level_scaling_max = 40, module_timeout = 1, daily_min = 400,
+                 daily_max = 450):
 
         self.total_restarts = total_restarts
         self.cmd_xp_max = cmd_xp_max
@@ -40,6 +43,8 @@ class BotInfo(Base):
         self.level_scaling_xp = level_scaling_xp
         self.level_scaling_max = level_scaling_max
         self.module_timeout = module_timeout
+        self.daily_min = daily_min
+        self.daily_max = daily_max
 
 class Servers(Base):
     __tablename__ = "servers"
@@ -158,6 +163,22 @@ class Messages(Base):
         self.private = private
         self.deleted = deleted
 
+class DailyRedeem(Base):
+    __tablename__ = "daily_redeems"
+
+    id = Column(Integer, primary_key=True)
+    d_id = Column(String(18), nullable=False)
+    day = Column(Integer, nullable=True)
+    amount = Column(Integer, nullable=False)
+    last_updated = Column(DateTime, nullable=False, default=text('NOW()'), onupdate=text('NOW()'))
+    first_contact = Column(DateTime, nullable=False, server_default=text('NOW()'))
+
+    def __init__(self, d_id, day, amount):
+
+        self.d_id = d_id
+        self.day = day
+        self.amount = amount
+
 class PointHistory(Base):
     __tablename__ = "point_history"
 
@@ -232,14 +253,16 @@ class Nicknames(Base):
 
     id = Column(Integer, primary_key=True)
     d_id = Column(String(18), nullable=False)
-    nickname = Column(String(32), nullable=False)
+    nickname_before = Column(String(32), nullable=True)
+    nickname_after = Column(String(32), nullable=True)
     last_updated = Column(DateTime, nullable=False, default=text('NOW()'), onupdate=text('NOW()'))
     first_contact = Column(DateTime, nullable=False, server_default=text('NOW()'))
 
-    def __init__(self, d_id, nickname):
+    def __init__(self, d_id, nickname_before, nickname_after):
 
         self.d_id = d_id
-        self.nickname = nickname
+        self.nickname_before = nickname_before
+        self.nickname_after = nickname_after
 
 class Commands(Base):
     __tablename__ = "commands"
@@ -265,3 +288,25 @@ class Commands(Base):
         self.alias = alias
         self.times_used = times_used
         self.deleted = deleted
+
+class Doubles(Base):
+    __tablename__ = "doubles"
+
+    id = Column(Integer, primary_key=True)
+    d_id = Column(String(18), nullable=False)
+    number1 = Column(String(1), nullable=True, default=None)
+    number2 = Column(String(1), nullable=True, default=None)
+    is_double = Column(Boolean, nullable=False)
+    victory_memes = Column(Integer, nullable=False)
+    victory_tokens = Column(Integer, nullable=False)
+    last_updated = Column(DateTime, nullable=False, default=text('NOW()'), onupdate=text('NOW()'))
+    first_contact = Column(DateTime, nullable=False, server_default=text('NOW()'))
+
+    def __init__(self, d_id, number1, number2, is_double, victory_memes, victory_tokens):
+
+        self.d_id = d_id
+        self.number1 = number1
+        self.number2 = number2
+        self.is_double = is_double
+        self.victory_memes = victory_memes
+        self.victory_tokens = victory_tokens

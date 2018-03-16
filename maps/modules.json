@@ -17,10 +17,316 @@
     }
   },
   {
-    "call": "channels",
+    "call": "rps",
+    "aliases": [],
+    "owner": false,
+    "class_name": "Rps",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [1]
+    }
+  },
+  {
+    "call": "help",
+    "aliases": [],
+    "owner": false,
+    "class_name": "Help",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [0,1]
+    }
+  },
+  {
+    "call": "guess",
+    "aliases": [],
+    "owner": false,
+    "class_name": "Guess",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [0]
+    }
+  },
+  {
+    "call": "setavatar",
     "aliases": [],
     "owner": true,
-    "class_name": "ServerChannel",
+    "class_name": "SetAvatar",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [0,1]
+    }
+  },
+  {
+    "call": "roll",
+    "aliases": ["r"],
+    "owner": false,
+    "class_name": "Roll",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": " ",
+      "split": 4,
+      "length": [0,1,2]
+    }
+  },
+  {
+    "call": "doubles",
+    "aliases": ["tuplat"],
+    "owner": false,
+    "class_name": "Doubles",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [0,1,2]
+    }
+  },
+  {
+    "call": "gamble",
+    "aliases": [],
+    "owner": false,
+    "class_name": "Gamble",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": " ",
+      "split": 5,
+      "length": [0,1,2]
+    }
+  },
+  {
+    "call": "fishing",
+    "aliases": ["fish"],
+    "owner": false,
+    "class_name": "Fishing",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [0,1]
+    }
+  },
+  {
+    "call": "xp",
+    "aliases": [],
+    "owner": false,
+    "class_name": "GetXp",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [0,1]
+    }
+  },
+  {
+    "call": "transfer",
+    "aliases": [],
+    "owner": false,
+    "class_name": "Transfer",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": " ",
+      "split": 4,
+      "length": [0,1,2]
+    }
+  },
+  {
+    "call": "osu",
+    "aliases": [],
+    "owner": false,
+    "class_name": "Osu",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [1]
+    }
+  },
+  {
+    "call": "google",
+    "aliases": [],
+    "owner": false,
+    "class_name": "Google",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [1]
+    }
+  },
+  {
+    "call": "time",
+    "aliases": [],
+    "owner": false,
+    "class_name": "GetTime",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [0,1]
+    }
+  },
+  {
+    "call": "playing",
+    "aliases": [],
+    "owner": false,
+    "class_name": "Playing",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [1]
+    }
+  },
+  {
+    "call": "pun",
+    "aliases": [],
+    "owner": false,
+    "class_name": "Pun",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [0]
+    }
+  },
+  {
+    "call": "timer",
+    "aliases": [],
+    "owner": false,
+    "class_name": "Timer",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [1]
+    }
+  },
+  {
+    "call": "joined",
+    "aliases": [],
+    "owner": true,
+    "class_name": "JoinedToServer",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [0, 1]
+    }
+  },
+  {
+    "call": "ip",
+    "aliases": [],
+    "owner": true,
+    "class_name": "ResolveIp",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [1]
+    }
+  },
+  {
+    "call": "roles",
+    "aliases": [],
+    "owner": true,
+    "class_name": "ServerRoles",
     "info": "",
     "syntax": "",
     "exmaple": [{
@@ -65,6 +371,40 @@
       "delimeter": " ",
       "split": 5,
       "length": [0,1,2]
+    }
+  },
+  {
+    "call": "daily",
+    "aliases": ["d"],
+    "owner": false,
+    "class_name": "Daily",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 5,
+      "length": [0]
+    }
+  },
+  {
+    "call": "duel",
+    "aliases": ["d"],
+    "owner": false,
+    "class_name": "Duel",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": " ",
+      "split": 5,
+      "length": [2]
     }
   },
   {
@@ -306,6 +646,40 @@
     }
   },
   {
+    "call": "catpicture",
+    "aliases": ["cat"],
+    "owner": false,
+    "class_name": "CatPicture",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [0]
+    }
+  },
+  {
+    "call": "dogpicture",
+    "aliases": ["dog"],
+    "owner": false,
+    "class_name": "DogPicture",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [0]
+    }
+  },
+  {
     "call": "dogfact",
     "aliases": [],
     "owner": false,
@@ -527,6 +901,57 @@
     }
   },
   {
+    "call": "avatar",
+    "aliases": [],
+    "owner": false,
+    "class_name": "Avatar",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [0,1]
+    }
+  },
+  {
+    "call": "aoruoka",
+    "aliases": ["ao","ruoka","food"],
+    "owner": false,
+    "class_name": "AoRuoka",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [0,1]
+    }
+  },
+  {
+    "call": "nicknames",
+    "aliases": [],
+    "owner": false,
+    "class_name": "UserNickNames",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 1,
+      "length": [0,1]
+    }
+  },
+  {
     "call": "reverse",
     "aliases": [],
     "owner": false,
@@ -575,6 +1000,40 @@
       "delimeter": null,
       "split": 1,
       "length": [1]
+    }
+  },
+  {
+    "call": "numberfact",
+    "aliases": ["number"],
+    "owner": false,
+    "class_name": "NumberFact",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 5,
+      "length": [0,1]
+    }
+  },
+  {
+    "call": "purge",
+    "aliases": [],
+    "owner": true,
+    "class_name": "Purge",
+    "info": "",
+    "syntax": "",
+    "exmaple": [{
+        "input": "",
+        "output": ""
+    }],
+    "args": {
+      "delimeter": null,
+      "split": 5,
+      "length": [0,1]
     }
   },
   {

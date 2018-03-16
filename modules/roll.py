@@ -30,7 +30,7 @@ class Roll:
                 double = True
 
             # Getting roll history
-            previous = stats_roll_get_previous(message.author.id, 10)
+            previous = await bot.timeout.check_roll(message.author.id)
 
             # Cheking if double, no history(for abuse)
             insert_meme = ""
@@ -47,7 +47,7 @@ class Roll:
                     # Add tokens
                     if randint(0,1000) == 342: # one in 10000
                         tokens = 1
-                        self.database.user.tokens_alter(tokens, message.author.id)
+                        bot.database.user.tokens_alter(tokens, message.author.id)
                         meme = " | You have won a token from roll!"
                         insert_token = "+"+str(tokens)
                         win_asd = 1
@@ -56,26 +56,27 @@ class Roll:
                     # Add memes
                     if randint(1,5) == 2:
                         memes = 10
-                        self.database.user.points_alter(memes, message.author.id)
+                        bot.database.user.points_alter(memes, message.author.id)
                         token = " | You have won a {}memes from roll!".format(memes)
                         insert_meme = "+"+str(memes)
                         win_asd = 1
 
             # Add roll stats
-            stats_roll_add(message.author.id, first, second, double, memes, tokens)
+            bot.database.double.add(message.author.id, first, second, double, memes, tokens)
+            #stats_roll_add(message.author.id, first, second, double, memes, tokens)
             if win_asd == 1:
-                points_stats_insert(message.server.id, message.author.id, 1, "Roll", "", "", insert_meme, insert_token, first+second, info2, "", "", 0, 0, 0)
+                bot.database.pointhistory.add(message.author.id, message.server.id, 1, "Roll", False, "", "", insert_meme, insert_token, first+second, info2, "", "", 0, 0, 0)
 
             # Formatting and sending message
             letter = "**{}{}{}{}**".format(first, second, token, meme)
-            await client.send_message(message.channel, "<@"+message.author.id+"> "+letter)
+            await bot.say(message.channel, "<@"+message.author.id+"> "+letter)
+            await bot.timeout.add_roll(message.author.id)
 
         elif len(arguments) == 1:
             kek = randint(1, int(arguments[0]))
-            await client.send_message(message.channel, "<@"+message.author.id+"> "+str(kek))
+            await bot.say(message.channel, "<@"+message.author.id+"> "+str(kek))
 
         elif len(arguments)  == 2:
             kek = randint(int(arguments[0]), int(arguments[1]))
-            await client.send_message(message.channel, "<@"+message.author.id+"> "+str(kek))
-
+            await bot.say(message.channel, "<@"+message.author.id+"> "+str(kek))
         return

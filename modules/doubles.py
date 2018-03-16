@@ -1,59 +1,43 @@
-from audiovisuaali import send
-from audiovisuaali import get_user_instance
-from mysqlfiles import users_get_roll_stats
 from math import floor as mfloor
 
+class Doubles:
 
-async def Doubles(message, client, arguments):
+    async def main(self, bot, database, message, arguments):
 
-    if len(arguments) == 0:
-        # Getting stats
-        user = message.author
-        stats = users_get_roll_stats(message.author.id)
+        if len(arguments) == 0:
+            owner = message.author
+        else:
+            owner = await bot.utils.get_user_instance(message.server, arguments[0])
 
-    else:
+        stats = bot.database.double.get_stats_user(owner.id)
 
-        user = await get_user_instance(message, arguments[0])
-        try:
-            stats = users_get_roll_stats(user.id)
-        except:
-            send(1, "No user found")
-            await client.send_message(message.channel, ":game_die: **| User not found!**")
+        if stats is None:
             return
 
-    # Name
-    if user.nick is None:
-        name = user.name
-    else:
-        name = user.nick
+        name = bot.utils.author_nickanme(owner)
+        user_mention = " for: " + name
 
-    # name
-    user_mention = " for: " + name
-
-    # Calculating winrate
-    try:
-        win_rate = mfloor(int(stats[1]) / int(stats[0]) * 100)
-    except:
-        win_rate = "0"
-    # Memes
-    if stats[2] == 0:
-        memes = ""
-    else:
+        # Calculating winrate
         try:
-            memes = "\n:money_with_wings: Memes gained: {}".format(mfloor(stats[2]))
+            win_rate = mfloor(int(stats.doubles) / int(stats.rows) * 100)
         except:
+            win_rate = "0"
+
+        if stats.memes == 0:
             memes = ""
+        else:
+            try:
+                memes = "\n:money_with_wings: Memes gained: {}".format(mfloor(stats.memes))
+            except:
+                memes = ""
 
-        # Tokens
-    if stats[3] == 0:
-        tokens = ""
-    else:
-        try:
-            tokens = "\n:trophy: Tokens gained: {}".format(mfloor(stats[3]))
-        except:
+        if stats.tokens == 0:
             tokens = ""
+        else:
+            try:
+                tokens = "\n:trophy: Tokens gained: {}".format(mfloor(stats.tokens))
+            except:
+                tokens = ""
 
-    # Creating message
-    letter = ":game_die: **| Roll stats{}\n\n:arrows_counterclockwise: Rolled: {}\n:tada: Doubles: {}\n:thinking: Win-rate: {}%{}{}**".format(user_mention, stats[0], stats[1], win_rate, memes, tokens)
-
-    await client.send_message(message.channel, letter)
+        letter = ":game_die: **| Roll stats{}\n\n:arrows_counterclockwise: Rolled: {}\n:tada: Doubles: {}\n:thinking: Win-rate: {}%{}{}**".format(user_mention, stats.rows, stats.doubles, win_rate, memes, tokens)
+        await bot.say(message.channel, letter)
