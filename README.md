@@ -5,13 +5,41 @@ AudioBot-2 - This is the second version of audiobot. This version of the bot use
 
 * Command system (Create and manage your own commands)
 * Get the AO canteen menus
-* Go through users profile pictures
+* User information and profile picture inspection
+* Meme system
+* Random lennyfaces
+* Calculate math equations
+* Server leveling system
 * Server ecomony system
 * Bank to gather more points by saving points in the bank
-* Minigames
- -Slots
- -Four in a line
- -Roulette
- -Duel
-* Jokes
+* Minigames: Slots, Four in a line, Rock Paper scissors, Roulette, Duel, fishing and more coming
+* Ability for different lists sorted by xp, points, tokens, wins in mode X and more
+* Personal stats for minigames and roll
+* Numberfacts
+* Dog pictures and facts
+* Cat pictures and facts
+* Chronogg intregation
+* Shop (Upcoming profile swag)
+* Jokes: Normal jokes, Puns, dad, yo mama and Chuck Norris jokes
+* Roll system, change to get random rewards
+* Google, bumb google
+* Youtube search
+* Urban search
+* Wikipedia search
+* Translator with custom end languages
+* Osu search user search and stats look up
+* Timer reminder
+* Strawpoll creation
+* Trump 
+* Fingerpori cartoon
+* Text manipulation commands
+* Dynamic time system, get time of place X
+* Geolocation
+* Ip resolver
+* Find out what trump has said
+* Message logging
+* Ban phrase filter system incoming
+* Kick, ban
+* Set bots avatar
+* Server stats and information
 
