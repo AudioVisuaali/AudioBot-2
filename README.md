@@ -43,3 +43,40 @@ AudioBot-2 - This is the second version of audiobot. This version of the bot use
 * Set bots avatar
 * Server stats and information
 
+# Installation
+
+### 1. Create Folder
+
+Create folder
+
+```
+sudo mkdir /srv/audiobot
+cd /srv/pajbot
+```
+
+### 2. Copy project
+
+Copy project from github
+```
+# in /srv/audiobot
+git clone https://github.com/AudioVisuaali/AudioBot-2.git .
+```
+
+### 3. Install Postgresql
+
+Install Postgresql
+
+```
+apt-get install postgresql
+```
+
+configure user and database
+
+```
+sudo -u postgres psql
+CREATE ROLE audiobot WITH LOGIN PASSWORD 'hdtry6gtresd';
+CREATE DATABASE audiobot OWNER audiobot;
+ALTER ROLE audiobot SET client_encoding = 'UTF8';
+
+
+```
