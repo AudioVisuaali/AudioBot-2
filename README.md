@@ -74,9 +74,10 @@ configure user and database
 
 ```
 sudo -u postgres psql
+
 CREATE ROLE audiobot WITH LOGIN PASSWORD 'hdtry6gtresd';
 CREATE DATABASE audiobot OWNER audiobot;
 ALTER ROLE audiobot SET client_encoding = 'UTF8';
-
-
 ```
+
+
