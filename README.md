@@ -9,9 +9,9 @@ AudioBot-2 - This is the second version of audiobot. This version of the bot use
 * Server ecomony system
 * Bank to gather more points by saving points in the bank
 * Minigames
-* -Slots
-* -Four in a line
-* -Roulette
-* -Duel
+ -Slots
+ -Four in a line
+ -Roulette
+ -Duel
 * Jokes
 
