@@ -51,7 +51,7 @@ Create folder
 
 ```
 sudo mkdir /srv/audiobot
-cd /srv/pajbot
+cd /srv/audiobot
 ```
 
 ### 2. Copy project
@@ -100,7 +100,7 @@ In /srv/audiobot/maps/config.json set database
 ### 6. Run bot
 
 ```
-# Actiavte virtual enviorimental
+# Activate virtual envioriment
 source botenv/bin/activate
 
 # Run bot
