@@ -79,5 +79,17 @@ CREATE ROLE audiobot WITH LOGIN PASSWORD 'hdtry6gtresd';
 CREATE DATABASE audiobot OWNER audiobot;
 ALTER ROLE audiobot SET client_encoding = 'UTF8';
 ```
+### 4. Settings up virtual envioriment
+
+Setup virtual env
+
+```
+apt install virtualenv
+
+virtualenv -p python3 botenv
+source botenv/bin/activate
+pip install pip --upgrade
+pip install -r requirements.txt
+```
 
 
