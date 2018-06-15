@@ -92,4 +92,17 @@ pip install pip --upgrade
 pip install -r requirements.txt
 ```
 
+### 5. Configure config file
+
+In /srv/audiobot/maps/config.json set database 
+
+### 6. Run bot
+
+```
+# Actiavte virtual enviorimental
+
+source botenv/bin/activate
+python start.py
+```
+
 
