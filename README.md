@@ -75,7 +75,7 @@ configure user and database
 ```
 sudo -u postgres psql
 
-CREATE ROLE audiobot WITH LOGIN PASSWORD 'hdtry6gtresd';
+CREATE ROLE audiobot WITH LOGIN PASSWORD 'password';
 CREATE DATABASE audiobot OWNER audiobot;
 ALTER ROLE audiobot SET client_encoding = 'UTF8';
 ```
@@ -90,6 +90,7 @@ virtualenv -p python3 botenv
 source botenv/bin/activate
 pip install pip --upgrade
 pip install -r requirements.txt
+deactivate
 ```
 
 ### 5. Configure config file
@@ -100,8 +101,9 @@ In /srv/audiobot/maps/config.json set database
 
 ```
 # Actiavte virtual enviorimental
-
 source botenv/bin/activate
+
+# Run bot
 python start.py
 ```
 
