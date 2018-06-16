@@ -3,6 +3,8 @@ AudioBot-2 - This is the second version of audiobot. This version of the bot use
 
 # Features
 
+* Message filtering and recognition for modules
+
 * Command system (Create and manage your own commands)
 * Get the AO canteen menus
 * User information and profile picture inspection
