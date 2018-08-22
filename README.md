@@ -3,6 +3,8 @@ AudioBot-2 - This is the second version of audiobot. This version of the bot use
 
 # Features
 
+<img src="https://kjeh.fi/YjOoR" data-canonical-src="https://kjeh.fi/YjOoR" width="400"/>
+
 * Message filtering and recognition for modules
 
 * Command system (Create and manage your own commands)
