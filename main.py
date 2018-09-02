@@ -36,6 +36,7 @@ class Bot(Client):
                 self._quit("Database connection error!")
                 return
 
+            # TODO MAKE BEETER
             self.loop.run_until_complete(self.start(self.config.bot.token))
 
         except KeyboardInterrupt:
