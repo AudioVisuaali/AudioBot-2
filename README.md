@@ -3,7 +3,7 @@ AudioBot-2 - This is the second version of audiobot. This version of the bot use
 
 # Features
 
-<img src="http://i.imgur.com/NOMzQhM.mp4" data-canonical-src="http://i.imgur.com/NOMzQhM.mp4" width="400"/>
+<img src="https://i.imgur.com/NOMzQhM.gifv" data-canonical-src="https://i.imgur.com/NOMzQhM.gifv" width="400"/>
 
 * Message filtering and recognition for modules
 
