@@ -5,7 +5,7 @@ AudioBot-2 - This is the second version of audiobot. This version of the bot use
 
 Preview:
 
-<img src="https://i.imgur.com/mCHQkhE.jpg" />
+<img src="https://i.imgur.com/6r1qZCA.jpg" />
 
 * Message filtering and recognition for modules
 
