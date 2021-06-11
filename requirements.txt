@@ -16,4 +16,4 @@ requests==2.19.1
 SQLAlchemy==1.2.8
 strawpy==1.1
 urllib3==1.23
-websockets==3.4
+websockets==9.1
